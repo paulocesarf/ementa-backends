@@ -1,6 +1,6 @@
 # Módulo 2 — SQL, PL/pgSQL e Auditoria
 
-Modelagem e consultas SQL, **PL/pgSQL**, criação de objetos, e scripts de auditoria. Foco em e-commerce e rotinas de negócios.
+Modelagem de um banco de dados para ecommerce e consultas SQL, criação de objetos, e scripts de auditoria.
 
 ---
 
