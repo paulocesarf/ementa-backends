@@ -21,7 +21,6 @@ Cada pasta contém um **README próprio** com contexto, pré-requisitos e passos
 
 ## 📎 Referências e material de apoio
 - `ementa_backend_python_com_links.pdf` (na raiz): material com links e referências.
-- 
 ---
 
 ## 🛠️ Ambiente sugerido
