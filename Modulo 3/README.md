@@ -1,18 +1,21 @@
-# Questão 1 — Vendas
+# Módulo 3 — Casos Práticos por Questão
 
-Modelo e consultas de **vendas**. Inclui criação de tabelas, carga e consultas de análise (média, ranking, última venda etc.).
+Casos práticos divididos por **Questões**, cobrindo vendas, pagamentos, auditoria com triggers e otimização.
 
 ---
 
 ## 📂 Subpastas
-- `sql/`
+- `Questao 1/`
+- `Questao 2/`
+- `Questao 3/`
+- `Questao 4/`
 
 ---
 
 ## 📜 Sumário de scripts
 | Arquivo | Propósito |
 |---|---|
-| `README.MD` | Documentação local do módulo. |
+_(sem arquivos na raiz do módulo)_
 
 ---
 

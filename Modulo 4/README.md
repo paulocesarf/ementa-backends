@@ -1,18 +1,19 @@
-# Questão 1 — Vendas
+# Módulo 4 — Respostas Discursivas
 
-Modelo e consultas de **vendas**. Inclui criação de tabelas, carga e consultas de análise (média, ranking, última venda etc.).
+Respostas em **texto** cobrindo questões 1–4, com explicações conceituais e decisões de modelagem/SQL.
 
 ---
 
 ## 📂 Subpastas
-- `sql/`
+_(sem subpastas)_
 
 ---
 
 ## 📜 Sumário de scripts
 | Arquivo | Propósito |
 |---|---|
-| `README.MD` | Documentação local do módulo. |
+| `Questao 4.txt` | Resposta/explicação textual. |
+| `Quest╞o 1 e 2 e 3.txt` | Resposta/explicação textual. |
 
 ---
 

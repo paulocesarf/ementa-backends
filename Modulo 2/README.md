@@ -1,15 +1,41 @@
-# 🛒 Projeto Banco de Dados: E-commerce + Auditoria
+# Módulo 2 — SQL, PL/pgSQL e Auditoria
 
-Este projeto simula a estrutura completa de um sistema de e-commerce, incluindo:
+Modelagem e consultas SQL, **PL/pgSQL**, criação de objetos, e scripts de auditoria. Foco em e-commerce e rotinas de negócios.
 
-- Modelagem de dados com tabelas relacionais
-- Controle de estoque, pedidos e pagamentos
-- Consulta analítica de produtos mais vendidos
-- Sistema de auditoria com triggers e funções PL/pgSQL
+---
 
-## 📦 Estrutura dos Arquivos
+## 📂 Subpastas
+_(sem subpastas)_
 
-`ecommerce.sql`          - Criação do banco de dados com tabelas principais: produtos, categorias, clientes, pedidos, pagamentos e estoque |
-`consulta-questao-2.sql` - Consulta SQL para extrair os 10 produtos mais vendidos no 1º semestre de 2025 |
-`auditoria.sql`          - Tabela `auditoria` para registrar operações de INSERT, UPDATE e DELETE com dados antigos/novos |
-`pl-pgsql.sql`           - Função `func_auditoria()` + trigger para aplicar a auditoria automaticamente |
+---
+
+## 📜 Sumário de scripts
+| Arquivo | Propósito |
+|---|---|
+| `README.md` | Documentação local do módulo. |
+| `auditoria.sql` | Estruturas e lógica de auditoria. |
+| `consulta-questao-2.sql` | Script SQL com objetivo específico (ver comentários do arquivo). |
+| `ecommerce.sql` | Modelo base de e-commerce (tabelas/relacionamentos). |
+| `pl-pgsql.sql` | Funções/procedures em PL/pgSQL. |
+
+---
+
+## ▶️ Execução
+### Banco de Dados (PostgreSQL)
+1. Crie o banco e rode **nesta ordem** quando existir: `create_*` ➜ `insert_*` ➜ `select_*`.
+2. Use `psql`:
+   ```bash
+   psql -U seu_usuario -d ementa -f caminho/do/arquivo.sql
+   ```
+
+### Python
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Linux/macOS
+.venv\Scripts\activate   # Windows
+python main.py
+```
+
+---
+
+

@@ -1,0 +1,121 @@
+## app (Projeto/main.py)
+
+## Conteúdo:
+## Uma API REST simples que permite criar e listar itens armazenados em uma tabela items dentro do banco PostgreSQL.
+## O Ambiente está em multi container
+
+from fastapi import FastAPI
+from pydantic import BaseModel
+from typing import List
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.orm import sessionmaker, declarative_base
+
+app = FastAPI()
+
+DATABASE_URL = "postgresql://postgres:postgres@db:5432/postgres"
+
+engine = create_engine(DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
+
+class Item(Base):
+    __tablename__ = "items"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, index=True)
+
+Base.metadata.create_all(bind=engine)
+
+class ItemCreate(BaseModel):
+    name: str
+
+@app.post("/items/", response_model=ItemCreate)
+def create_item(item: ItemCreate):
+    db = SessionLocal()
+    db_item = Item(name=item.name)
+    db.add(db_item)
+    db.commit()
+    db.refresh(db_item)
+    db.close()
+    return db_item
+
+@app.get("/items/", response_model=List[ItemCreate])
+def read_items():
+    db = SessionLocal()
+    items = db.query(Item).all()
+    db.close()
+    return items
+
+## Requisitos (Projeto/requirements.txt):
+
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+
+## Docker File
+
+# Usar imagem oficial Python como base
+FROM python:3.11-slim
+
+# Diretório de trabalho dentro do container
+WORKDIR /app
+
+# Copiar requirements e instalar dependências
+COPY Projeto/requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copiar todo o código da aplicação
+COPY Projeto/ .
+
+# Comando para rodar a aplicação com uvicorn
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+## .dockerignore
+
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.env
+.git
+.gitignore
+venv/
+
+
+## docker-compose.yml
+
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/postgres
+    volumes:
+      - ./app:/app
+
+volumes:
+  postgres_data:
+
+## .env
+
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=postgres

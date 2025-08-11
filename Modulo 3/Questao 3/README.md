@@ -1,31 +1,40 @@
-## Criar Tabela de Auditoria
+# Questão 3 — Auditoria com Trigger
 
-**Arquivo:** `create-auditoria.sql`
+Implementação de **auditoria** em alterações de clientes com **função** e **trigger**.
 
-Cria a tabela `auditoria` para registrar operações realizadas em tabelas sensíveis, como `INSERT`, `UPDATE` e `DELETE`. Os dados antigos e novos são armazenados em formato JSONB, junto com o nome da tabela, usuário e data da operação.
+---
 
-## Função de Auditoria
+## 📂 Subpastas
+_(sem subpastas)_
 
-**Arquivo:** `func-auditoria.sql`
+---
 
-Define a função `func_auditoria()` que será executada automaticamente pelas triggers. Ela detecta o tipo de operação (INSERT, UPDATE ou DELETE) e insere o registro correspondente na tabela `auditoria`.
+## 📜 Sumário de scripts
+| Arquivo | Propósito |
+|---|---|
+| `README.md` | Documentação local do módulo. |
+| `create-auditoria.sql` | Criação/DDL das tabelas ou objetos de banco. / Estruturas e lógica de auditoria. |
+| `func-auditoria.sql` | Função/Stored Procedure (PL/pgSQL). / Estruturas e lógica de auditoria. |
+| `trigger-clientes.sql` | Trigger para auditoria/consistência. |
 
-## Trigger de Auditoria
+---
 
-**Arquivo:** `trigger-clientes.sql`
+## ▶️ Execução
+### Banco de Dados (PostgreSQL)
+1. Crie o banco e rode **nesta ordem** quando existir: `create_*` ➜ `insert_*` ➜ `select_*`.
+2. Use `psql`:
+   ```bash
+   psql -U seu_usuario -d ementa -f caminho/do/arquivo.sql
+   ```
 
-Aplica a trigger `trg_auditar_clientes` à tabela `clientes`, para que todas as alterações feitas nessa tabela sejam registradas automaticamente pela função de auditoria.
+### Python
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Linux/macOS
+.venv\Scripts\activate   # Windows
+python main.py
+```
 
-## README
+---
 
-1. Execute o script `create-auditoria.sql` para criar a tabela de auditoria
-2. Execute o script `func-auditoria.sql` para registrar a função responsável pela lógica
-3. Execute o script `trigger-clientes.sql` para ativar a auditoria na tabela `clientes`
 
-Você pode replicar o script de trigger para qualquer tabela que deseje auditar, alterando apenas o nome da tabela.
-
-## Arquivos do Projeto
-
-`create-auditoria.sql`   - Criação da tabela `auditoria`  
-`func-auditoria.sql`     - Função `func_auditoria()` com a lógica de registro  
-`trigger-clientes.sql`   - Trigger de auditoria aplicada à tabela `clientes`  

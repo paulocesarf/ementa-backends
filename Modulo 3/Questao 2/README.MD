@@ -1,15 +1,37 @@
-# Projeto: Expiração de Pagamentos Pendentes
+# Questão 2 — Pagamentos
 
-Simulação de uma tabela de pagamentos com lógica de expiração automática via stored procedure.
+Modelo de **pagamentos** e rotina de **expiração** de pagamentos (status).
 
-## Tabela
+---
 
-- `pagamentos_pendentes`: armazena cliente, valor, status e datas de criação/pagamento.
+## 📂 Subpastas
+- `sql/`
 
-## Lógica de Expiração
+---
 
-A procedure `atualizar_pagamentos_expirados()` marca como "expirado" os pagamentos:
+## 📜 Sumário de scripts
+| Arquivo | Propósito |
+|---|---|
+| `README.MD` | Documentação local do módulo. |
 
-- Que continuam com status "pendente"
-- Foram criados há mais de 7 dias
-- E que não têm `data_pagamento` definida
+---
+
+## ▶️ Execução
+### Banco de Dados (PostgreSQL)
+1. Crie o banco e rode **nesta ordem** quando existir: `create_*` ➜ `insert_*` ➜ `select_*`.
+2. Use `psql`:
+   ```bash
+   psql -U seu_usuario -d ementa -f caminho/do/arquivo.sql
+   ```
+
+### Python
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Linux/macOS
+.venv\Scripts\activate   # Windows
+python main.py
+```
+
+---
+
+

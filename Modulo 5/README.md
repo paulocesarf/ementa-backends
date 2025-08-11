@@ -1,18 +1,21 @@
-# Questão 1 — Vendas
+# Módulo 5 — Estudos de Caso
 
-Modelo e consultas de **vendas**. Inclui criação de tabelas, carga e consultas de análise (média, ranking, última venda etc.).
+Estudos de caso e respostas em **TXT** para quatro questões práticas.
 
 ---
 
 ## 📂 Subpastas
-- `sql/`
+_(sem subpastas)_
 
 ---
 
 ## 📜 Sumário de scripts
 | Arquivo | Propósito |
 |---|---|
-| `README.MD` | Documentação local do módulo. |
+| `Questao 1.txt` | Resposta/explicação textual. |
+| `Questao 2.txt` | Resposta/explicação textual. |
+| `Questao 3.txt` | Resposta/explicação textual. |
+| `Questao 4.txt` | Resposta/explicação textual. |
 
 ---
 

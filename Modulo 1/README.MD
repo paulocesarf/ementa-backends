@@ -1,22 +1,40 @@
-## Funcionalidades Incluídas
+# Módulo 1 — Python e Fundamentos
 
-1. **Cache LRU com TTL**
-   - Armazena pares chave-valor com controle de tempo de expiração.
-   - Simula um cache de memória com limite de capacidade.
+Exercícios introdutórios em Python aplicados ao backend. Inclui exemplos como **cache LRU com TTL**, manipulação de dados e boas práticas de scripts executáveis.
 
-2. **Busca Binária Interativa**
-   - Busca valores em uma lista ordenada.
-   - Sugere nomes similares caso o valor exato não seja encontrado.
+---
 
-3. **Gerenciador de Sessões**
-   - Permite cadastro, login e validação de usuários com senha criptografada (SHA256).
-   - Suporte a tempo de expiração da sessão (TTL).
+## 📂 Subpastas
+_(sem subpastas)_
 
-4. **Ranking Dinâmico com Heap**
-   - Armazena e classifica scores de usuários.
-   - Retorna os maiores valores com base em um heap de prioridade.
+---
 
-## Como Executar
+## 📜 Sumário de scripts
+| Arquivo | Propósito |
+|---|---|
+| `README.MD` | Documentação local do módulo. |
+| `main.py` | Script Python executável (ver instruções abaixo). |
 
-cd Modulo1
-py main.py
+---
+
+## ▶️ Execução
+### Banco de Dados (PostgreSQL)
+1. Crie o banco e rode **nesta ordem** quando existir: `create_*` ➜ `insert_*` ➜ `select_*`.
+2. Use `psql`:
+   ```bash
+   psql -U seu_usuario -d ementa -f caminho/do/arquivo.sql
+   ```
+
+### Python
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Linux/macOS
+.venv\Scripts\activate   # Windows
+python main.py
+```
+
+---
+
+### 💡 Notas
+- Ajuste parâmetros diretamente no código quando aplicável.
+- Se houver dependências, documente-as no topo do arquivo.
