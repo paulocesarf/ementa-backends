@@ -1,0 +1,22 @@
+## Quando a gente integra com APIs externas, normalmente recebe dados em JSON com formatos diferentes do nosso código, às vezes com nomes estranhos ou campos opcionais.
+## Com o Pydantic, a gente pode criar modelos que entendem esses dados, fazem validação automática e até renomeiam campos usando alias.
+
+
+## Se a api retorna: 
+{
+  "user_name": "usuario",
+  "email_address": "usuario@email.com",
+  "signup_date": "2025-01-01"
+}
+
+## é possível utilizar esse modelo
+
+from pydantic import BaseModel, EmailStr, Field
+from datetime import date
+
+class UsuarioExterno(BaseModel):
+    username: str = Field(..., alias='user_name')
+    email: EmailStr = Field(..., alias='email_address')
+    data_cadastro: date = Field(..., alias='signup_date')
+
+## Esse modelo converte os nomes automaticamente e ainda valida o e-mail e a data.

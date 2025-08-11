@@ -1,0 +1,50 @@
+## Pydantic é uma biblioteca do Python usada pra validar dados de forma automática. A gente cria classes usando BaseModel e define os tipos esperados (tipo str, int, float, etc). Quando a gente passa os dados, ele já verifica se tá tudo certo. Ele é muito usado no FastAPI pra validar o que chega na API (tipo JSON). O bom é que ele evita que entre dados errados no sistema e já avisa com erro se algo estiver fora do esperado.
+
+## Exemplo:
+
+from pydantic import BaseModel, EmailStr
+
+class Usuario(BaseModel):
+    nome: str
+    email: EmailStr
+
+## Se eu passar um e-mail inválido, ele já reclama na hora.
+## Resumindo: Pydantic ajuda a deixar o código mais seguro e organizado, sem precisar ficar escrevendo um monte de if pra validar tudo na mão.
+
+from pydantic import BaseModel, EmailStr, validator, root_validator
+from typing import List, Optional
+from datetime import date
+
+class Produto(BaseModel):
+    nome: str
+    preco: float
+
+    @validator('preco')
+    def preco_positivo(cls, v):
+        if v <= 0:
+            raise ValueError('Preço deve ser maior que zero')
+        return v
+
+class Cliente(BaseModel):
+    nome: str
+    email: EmailStr
+
+class Pedido(BaseModel):
+    cliente: Cliente
+    produtos: List[Produto]
+    status: str
+    endereco_entrega: Optional[str]
+    data_pedido: date
+    data_entrega: Optional[date]
+
+    @root_validator
+    def validar_pedido(cls, values):
+        if values['status'] == 'enviado' and not values['endereco_entrega']:
+            raise ValueError('Endereço é obrigatório para pedidos enviados') ## Caso não tiver endereço de entrega preenchido
+        if values['data_entrega'] and values['data_entrega'] < values['data_pedido']:
+            raise ValueError('Data de entrega inválida') ## Caso data for anterior à data do pedido,
+        return values
+
+
+## O @root_validator no Pydantic é usado quando você precisa validar mais de um campo ao mesmo tempo. Ou seja, @root_validator é usado pra validar regras que envolvem vários campos ao mesmo tempo, como comparar datas, verificar dependências ou garantir consistência entre os dados do modelo.
+## Esse validador, utilziando Pydantic serve para previnir erros comuns na hora de preencher algo dentro da API.

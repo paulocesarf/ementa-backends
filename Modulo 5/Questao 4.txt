@@ -1,0 +1,41 @@
+# 4. Implementação de validators customizados para regras de negócio específicas
+
+from pydantic import BaseModel, validator, ValidationError
+from typing import Optional
+
+class Pedido(BaseModel):
+    id: int
+    quantidade: int
+    preco_unitario: float
+    desconto: Optional[float] = 0.0
+
+    # Validador customizado para garantir desconto válido
+    @validator('desconto')
+    def desconto_nao_negativo(cls, v):
+        if v < 0:
+            raise ValueError('Desconto não pode ser negativo') ## Se Desconto for Negativo
+        return v
+
+    # Validador customizado para garantir que o preço total seja coerente
+    @validator('quantidade')
+    def quantidade_positiva(cls, v):
+        if v <= 0:
+            raise ValueError('Quantidade deve ser maior que zero') ## Se Quantidade for menor ou igual a 0
+        return v
+
+    # Validador que depende de mais de um campo (usando root_validator)
+    @validator('desconto')
+    def desconto_maximo(cls, v, values):
+        preco = values.get('preco_unitario')
+        if preco is not None and v > preco:
+            raise ValueError('Desconto não pode ser maior que o preço unitário') ## Se Desconto for maior que o preço unitário
+
+
+# Exemplo:
+
+try:
+    pedido = Pedido(id=1, quantidade=3, preco_unitario=100.0, desconto=150.0)
+except ValidationError as e:
+    print(e)
+
+# Resultado: Erro informando que o desconto não pode ser maior que o preço unitário.

@@ -1,0 +1,36 @@
+# Usar BaseSettings garante que as configurações da aplicação sejam carregadas 
+# e validadas com tipos corretos automaticamente, evitando erros silenciosos. 
+# Sem ele, as variáveis de ambiente são lidas manualmente como strings, 
+# sem validação, tornando o código mais propenso a bugs e desorganizado.
+
+# --- Sem BaseSettings ---
+import os
+
+PORT = int(os.getenv("PORT", "abc"))  # Vai gerar erro só na execução, sem aviso claro
+print(PORT)
+
+
+# --- Com BaseSettings ---
+from pydantic import BaseSettings
+
+class Settings(BaseSettings):
+    port: int
+    database_url: str
+    debug: bool = False
+    app_name: str
+
+    class Config:
+        env_file = ".env"  # Indica que as variáveis virão do arquivo .env
+
+settings = Settings()  # Lê e valida automaticamente as variáveis do .env ou ambiente
+print(settings.port)
+
+
+# --- Exemplo de arquivo .env ---
+PORT=8080
+DATABASE_URL=postgresql://user:senha@host:porta/db
+DEBUG=true
+APP_NAME=MinhaAPI
+
+# Se PORT não for válido (exemplo, não for número), o Pydantic gera um ValidationError
+# explicando que o valor é inválido, facilitando a correção antes da aplicação rodar.

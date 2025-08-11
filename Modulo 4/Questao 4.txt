@@ -1,0 +1,92 @@
+## O que é um CI/CD
+
+CI/CD (Integração Contínua e Entrega Contínua) é a automação do processo de build, teste e deploy de uma aplicação. Usar Docker nesse processo garante que a aplicação rode sempre em um ambiente consistente, facilitando a entrega rápida e confiável de novas versões.
+
+## DockerFile (Exemplo)
+
+# Usando imagem base oficial do Python
+FROM python:3.10-slim
+
+# Diretório de trabalho
+WORKDIR /Projeto
+
+# Copiar dependências
+COPY requirements.txt .
+
+# Instalar dependências
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copiar código da aplicação
+COPY . .
+
+# Comando padrão para rodar a aplicação
+CMD ["python", "app.py"]
+
+## Exemplo PipeLine
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout do código
+      uses: actions/checkout@v3
+
+    - name: Build da imagem Docker
+      run: docker build -t minha-app:latest .
+
+    - name: Rodar testes
+      run: |
+        docker run --rm minha-app:latest python -m unittest discover tests
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - name: Login no Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build e push da imagem
+      run: |
+        docker build -t meuusuario/minha-app:latest .
+        docker push meuusuario/minha-app:latest
+
+    - name: Deploy no servidor (exemplo via SSH)
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        script: |
+          docker pull meuusuario/minha-app:latest
+          docker stop minha-app || true
+          docker rm minha-app || true
+          docker run -d --name minha-app -p 80:80 meuusuario/minha-app:latest
+
+## Explicação
+
+Em resumo, a configuração do pipeline CI/CD com Docker promove entregas rápidas, confiáveis e repetíveis, facilitando a manutenção e evolução contínua do software.
+Quando você configura um pipeline CI/CD no GitHub (como com GitHub Actions) para uma aplicação Docker, o fluxo típico é assim:
+Você faz um push do código no repositório do GitHub (por exemplo, na branch main).
+Isso dispara automaticamente o workflow configurado (pipeline CI/CD).
+
+O pipeline:
+Constrói a imagem Docker da aplicação com base no Dockerfile.
+Roda os testes (se configurados) dentro do container.
+Faz o login no Docker Hub (ou outro registry) usando as credenciais armazenadas em secrets.
+Publica (push) a nova imagem Docker atualizada para o Docker Hub.
+Faz o deploy no servidor (via SSH, Kubernetes, ou outro método) atualizando o container em produção para usar essa nova imagem.
+
+Assim, toda vez que você envia código para o GitHub, se tudo passar, a imagem Docker é atualizada e o sistema em produção é automaticamente atualizado com a nova versão — sem você precisar fazer nada manualmente.
