@@ -1,4 +1,4 @@
-# Questão 4 — Otimização de Queries com Planos de Execução (PostgreSQL)
+# Questão 4 — Otimização de Queries com Planos de Execução
 
 Este pacote mostra como **diagnosticar** e **acelerar** uma consulta lenta usando:
 - `EXPLAIN (ANALYZE, BUFFERS)` para entender o plano,
