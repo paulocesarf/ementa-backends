@@ -4,11 +4,6 @@ Modelagem e consultas SQL, **PL/pgSQL**, criação de objetos, e scripts de audi
 
 ---
 
-## 📂 Subpastas
-_(sem subpastas)_
-
----
-
 ## 📜 Sumário de scripts
 | Arquivo | Propósito |
 |---|---|
@@ -23,18 +18,6 @@ _(sem subpastas)_
 ## ▶️ Execução
 ### Banco de Dados (PostgreSQL)
 1. Crie o banco e rode **nesta ordem** quando existir: `create_*` ➜ `insert_*` ➜ `select_*`.
-2. Use `psql`:
-   ```bash
-   psql -U seu_usuario -d ementa -f caminho/do/arquivo.sql
-   ```
-
-### Python
-```bash
-python -m venv .venv
-source .venv/bin/activate  # Linux/macOS
-.venv\Scripts\activate   # Windows
-python main.py
-```
 
 ---
 
