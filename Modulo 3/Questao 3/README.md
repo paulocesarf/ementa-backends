@@ -1,40 +1,23 @@
-# Questão 3 — Auditoria com Trigger
+# Questão 3 — Auditoria Completa com Triggers (PostgreSQL)
 
-Implementação de **auditoria** em alterações de clientes com **função** e **trigger**.
+Este pacote contém scripts SQL prontos para implementar **auditoria de dados via triggers**,
+registrando inserções, atualizações e exclusões com antes/depois em `jsonb`.
 
----
+## Arquivos
 
-## 📂 Subpastas
-_(sem subpastas)_
+1. **create-auditoria.sql** — Estrutura base  
+   - Cria a tabela de domínio (ex.: `clientes`) e a tabela de auditoria `audit_log`.  
+   - Define chaves e tipos necessários para rastreabilidade.
 
----
+2. **func-auditoria.sql** — Função de trigger (genérica)  
+   - Implementa a lógica de auditoria:
+     - Captura `TG_OP` (`INSERT`, `UPDATE`, `DELETE`).
+     - Salva `before_data` (OLD) e `after_data` (NEW) em `jsonb`.
+     - Registra `tabela`, `row_id`, `changed_at` e `changed_by`.
 
-## 📜 Sumário de scripts
-| Arquivo | Propósito |
-|---|---|
-| `README.md` | Documentação local do módulo. |
-| `create-auditoria.sql` | Criação/DDL das tabelas ou objetos de banco. / Estruturas e lógica de auditoria. |
-| `func-auditoria.sql` | Função/Stored Procedure (PL/pgSQL). / Estruturas e lógica de auditoria. |
-| `trigger-clientes.sql` | Trigger para auditoria/consistência. |
+3. **trigger-clientes.sql** — Associação das triggers  
+   - Cria triggers `AFTER INSERT OR UPDATE OR DELETE` na tabela alvo (`clientes`)
+     chamando a função de auditoria.  
+   - (Opcional) Inclui um `BEFORE` de validação de regra de negócio, se necessário.
 
----
-
-## ▶️ Execução
-### Banco de Dados (PostgreSQL)
-1. Crie o banco e rode **nesta ordem** quando existir: `create_*` ➜ `insert_*` ➜ `select_*`.
-2. Use `psql`:
-   ```bash
-   psql -U seu_usuario -d ementa -f caminho/do/arquivo.sql
-   ```
-
-### Python
-```bash
-python -m venv .venv
-source .venv/bin/activate  # Linux/macOS
-.venv\Scripts\activate   # Windows
-python main.py
-```
-
----
-
-
+> Você pode reutilizar a mesma função de auditoria para outras tabelas — basta criar novas triggers nelas.

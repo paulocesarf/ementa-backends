@@ -1,40 +1,19 @@
-# Questão 4 — Otimização e Índices
+# Questão 4 — Otimização de Queries com Planos de Execução (PostgreSQL)
 
-Criação de **tabelas de loja** e propostas de **otimização** por índices; análise de consulta lenta.
+Este pacote mostra como **diagnosticar** e **acelerar** uma consulta lenta usando:
+- `EXPLAIN (ANALYZE, BUFFERS)` para entender o plano,
+- criação de **índices** adequados,
+- e (opcionalmente) uma **reescrita** que reduz a cardinalidade antes do join final.
 
----
+## Arquivos
 
-## 📂 Subpastas
-_(sem subpastas)_
+1. **create-tabelas-loja.sql** — Esquema base  
+   Cria `clientes`, `produtos`, `pedidos`, `itens_pedido` com chaves/relacionamentos. :contentReference[oaicite:0]{index=0}
 
----
+2. **query-lenta.sql** — Consulta lenta de exemplo  
+   Faz `JOIN` entre as quatro tabelas e filtra por **intervalo de datas**, **categoria** e **cidade**. Ordena por data. :contentReference[oaicite:1]{index=1}
 
-## 📜 Sumário de scripts
-| Arquivo | Propósito |
-|---|---|
-| `README.md` | Documentação local do módulo. |
-| `create-tabelas-loja.sql` | Criação/DDL das tabelas ou objetos de banco. |
-| `otimizacoes-indexes.sql` | Índices e otimizações de desempenho. |
-| `query-lenta.sql` | Exemplo de consulta com pontos de otimização. |
-
----
-
-## ▶️ Execução
-### Banco de Dados (PostgreSQL)
-1. Crie o banco e rode **nesta ordem** quando existir: `create_*` ➜ `insert_*` ➜ `select_*`.
-2. Use `psql`:
-   ```bash
-   psql -U seu_usuario -d ementa -f caminho/do/arquivo.sql
-   ```
-
-### Python
-```bash
-python -m venv .venv
-source .venv/bin/activate  # Linux/macOS
-.venv\Scripts\activate   # Windows
-python main.py
-```
+3. **otimizacoes-indexes.sql** — Índices propostos  
+   Inclui índices em colunas de **filtro** e **junção** para apoiar o plano de execução. :contentReference[oaicite:2]{index=2}
 
 ---
-
-

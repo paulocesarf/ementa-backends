@@ -1,25 +1,21 @@
+# Questão 3 — Auditoria Completa com Triggers
 
--- Função de auditoria para registrar alterações
-CREATE OR REPLACE FUNCTION func_auditoria() RETURNS TRIGGER AS $$
-DECLARE
-    v_usuario VARCHAR(50);
-BEGIN
-    v_usuario := current_user;
+Este pacote implementa **auditoria de dados via triggers**, registrando inserções, atualizações e exclusões em uma tabela `auditoria`, com os estados **antes** e **depois** em `JSONB`.
 
-    IF TG_OP = 'DELETE' THEN
-        INSERT INTO auditoria (tabela, operacao, usuario, dados_antigos)
-        VALUES (TG_TABLE_NAME, TG_OP, v_usuario, row_to_json(OLD));
-        RETURN OLD;
+## Arquivos
 
-    ELSIF TG_OP = 'UPDATE' THEN
-        INSERT INTO auditoria (tabela, operacao, usuario, dados_antigos, dados_novos)
-        VALUES (TG_TABLE_NAME, TG_OP, v_usuario, row_to_json(OLD), row_to_json(NEW));
-        RETURN NEW;
+1. **create-auditoria.sql** — Estrutura da tabela de auditoria  
+   Cria a tabela `auditoria` com as colunas:  
+   `id`, `tabela`, `operacao`, `usuario`, `data_operacao`, `dados_antigos`, `dados_novos`. 
 
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO auditoria (tabela, operacao, usuario, dados_novos)
-        VALUES (TG_TABLE_NAME, TG_OP, v_usuario, row_to_json(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
+2. **func-auditoria.sql** — Função de trigger (genérica)  
+   Define `func_auditoria()` para capturar `INSERT/UPDATE/DELETE` e gravar em `auditoria`:  
+   - `DELETE`: salva `dados_antigos` (linha OLD).  
+   - `UPDATE`: salva `dados_antigos` e `dados_novos`.  
+   - `INSERT`: salva `dados_novos`.  
+   O usuário é obtido de `current_user`. 
+
+3. **trigger-clientes.sql** — Associação da trigger  
+   Cria a trigger `trg_auditar_clientes` **AFTER INSERT OR UPDATE OR DELETE** na tabela `clientes`, apontando para `func_auditoria()`. (A tabela `clientes` deve existir previamente.) 
+
+> **Reuso:** para auditar outras tabelas, crie novas triggers nelas reutilizando `func_auditoria()`.

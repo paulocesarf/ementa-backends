@@ -1,37 +1,23 @@
-# Questão 1 — Vendas
+# Relatórios com Window Functions
 
-Modelo e consultas de **vendas**. Inclui criação de tabelas, carga e consultas de análise (média, ranking, última venda etc.).
+Este pacote contém 3 relatórios SQL prontos para uso, cada um em um arquivo separado,
+utilizando **funções de janela** para calcular métricas linha a linha sem perder o detalhe.
 
----
+## Arquivos
 
-## 📂 Subpastas
-- `sql/`
+1. **movel-vendedor.sql** — Média móvel de 3 vendas por vendedor
+   - Calcula a média da venda atual e das 2 anteriores, por vendedor.
+   - Útil para suavizar flutuações e analisar tendências.
 
----
+2. **ranking-vendedor.sql** — Ranking mensal por vendedor
+   - Calcula o total do mês por vendedor e gera rankings (`RANK`, `DENSE_RANK`, `ROW_NUMBER`).
+   - Permite identificar líderes e evolução mensal.
 
-## 📜 Sumário de scripts
-| Arquivo | Propósito |
-|---|---|
-| `README.MD` | Documentação local do módulo. |
+3. **acumulado-vendedor.sql** — Total acumulado por vendedor
+   - Soma progressiva das vendas por vendedor ao longo do tempo.
+   - Útil para acompanhar performance acumulada.
 
----
+> Se houver múltiplas vendas no mesmo dia para o mesmo vendedor, adicione uma coluna `id` para ordenar sem ambiguidade.
 
-## ▶️ Execução
-### Banco de Dados (PostgreSQL)
-1. Crie o banco e rode **nesta ordem** quando existir: `create_*` ➜ `insert_*` ➜ `select_*`.
-2. Use `psql`:
-   ```bash
-   psql -U seu_usuario -d ementa -f caminho/do/arquivo.sql
-   ```
-
-### Python
-```bash
-python -m venv .venv
-source .venv/bin/activate  # Linux/macOS
-.venv\Scripts\activate   # Windows
-python main.py
-```
-
----
-
-
+## Saída esperada
+Cada script retorna colunas originais (`vendedor`, `data`, `valor`) mais a métrica calculada.
