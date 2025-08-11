@@ -25,7 +25,6 @@ Cada pasta contém um **README próprio** com contexto, pré-requisitos e passos
 
 ## 🛠️ Ambiente sugerido
 - **PostgreSQL ≥ 13**
-- **psql** disponível no PATH
 - **Python ≥ 3.10**
 
 
